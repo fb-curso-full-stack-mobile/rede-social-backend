@@ -18,6 +18,21 @@ class UserController {
       prisma.$disconnect();
     }
   }
+
+  async getUserByEmail(email: string) {
+    const prisma = new PrismaClient();
+    try {
+      return await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+    } catch (e) {
+      throw e;
+    } finally {
+      prisma.$disconnect();
+    }
+  }
 }
 
 export default new UserController();

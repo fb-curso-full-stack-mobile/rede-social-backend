@@ -32,4 +32,24 @@ router.post("/sign-up", async (req, res) => {
   }
 });
 
+router.post("/sign-in", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const token = await authController.signIn(email, password);
+    if (token) {
+      return res.json({ token });
+    } else {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        message: "Credenciais inválidas.",
+      });
+    }
+  } catch (e) {
+    log(e);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message:
+        "Ocorreu um erro interno ao efetuar login. Tente novamente mais tarde.",
+    });
+  }
+});
+
 export default router;
