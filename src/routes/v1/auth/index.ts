@@ -14,9 +14,11 @@ router.post("/sign-up", async (req, res) => {
     if (user.name && user.surname && user.email && user.password) {
       if ((user as any).test) {
         user.id = 1;
+        user.password = "";
         return res.status(StatusCodes.CREATED).json({ user });
       }
       user = await authController.signUp(user);
+      user.password = "";
       return res.status(StatusCodes.CREATED).json({ user });
     } else {
       return res
