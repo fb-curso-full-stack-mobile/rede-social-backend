@@ -31,4 +31,18 @@ router.post("/post", async (req, res) => {
   }
 });
 
+router.get("/post", async (req, res) => {
+  const userId = (req as any).authUserId;
+  try {
+    const posts = await postController.fetchAll(userId);
+    return res.json({ posts });
+  } catch (e) {
+    log(e);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message:
+        "Ocorreu um erro interno ao tentar obter a listagem de posts. Tente novamente mais tarde.",
+    });
+  }
+});
+
 export default router;
