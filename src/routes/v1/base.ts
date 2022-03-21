@@ -1,6 +1,7 @@
 import auth from "./auth";
 import post from "./post";
 import comment from "./comment";
+import like from "./like";
 import express from "express";
 import { jwtMiddleware } from "../../middlewares/jwt-middleware";
 
@@ -17,5 +18,6 @@ router.use(jwtMiddleware);
 // rotas privadas
 router.use(post);
 router.use(comment);
+router.use(like);
 
 export default router;
