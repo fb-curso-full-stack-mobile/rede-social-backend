@@ -1,40 +1,43 @@
 import { Post, PrismaClient } from "@prisma/client";
+import prisma from "../services/prisma-service";
 import friendController from "./friend-controller";
 
 class PostController {
   async create(post: Post) {
-    const prisma = new PrismaClient();
-    try {
-      return prisma.post.create({
-        data: post,
-      });
-    } catch (e) {
-      throw e;
-    } finally {
-      prisma.$disconnect();
-    }
+    return prisma.post.create({
+      data: post,
+    });
+  }
+
+  async find(id: number) {
+    return await prisma.post.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        user: true,
+        comments: true,
+      },
+    });
   }
 
   async fetchAll(userId: number) {
-    const prisma = new PrismaClient();
-    try {
-      const friends = await friendController.findFriends(userId);
-      const ids = friends.map((friend) =>
-        friend.userAId === userId ? friend.userBId : friend.userAId
-      );
-      ids.push(userId);
-      return await prisma.post.findMany({
-        where: {
-          userId: {
-            in: ids,
-          },
+    const friends = await friendController.findFriends(userId);
+    const ids = friends.map((friend) =>
+      friend.userAId === userId ? friend.userBId : friend.userAId
+    );
+    ids.push(userId);
+    return await prisma.post.findMany({
+      where: {
+        userId: {
+          in: ids,
         },
-      });
-    } catch (e) {
-      throw e;
-    } finally {
-      prisma.$disconnect();
-    }
+      },
+      include: {
+        user: true,
+        comments: true,
+      },
+    });
   }
 }
 

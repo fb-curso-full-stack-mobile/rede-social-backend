@@ -72,4 +72,16 @@ describe("Listagem de posts", () => {
     const json = await response.json();
     expect(Array.isArray(json.posts)).toBe(true);
   });
+  test("Deve ser possível obter um post.", async () => {
+    const response = await fetch("http://localhost:3001/api/v1/post/1", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    expect(response.status).toBe(200);
+    const json = await response.json();
+    expect(json.post.id > 0).toBe(true);
+  });
 });

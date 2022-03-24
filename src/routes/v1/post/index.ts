@@ -45,4 +45,18 @@ router.get("/post", async (req, res) => {
   }
 });
 
+router.get("/post/:id", async (req, res) => {
+  const postId = Number(req.params.id);
+  try {
+    const post = await postController.find(postId);
+    return res.json({ post });
+  } catch (e) {
+    log(e);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message:
+        "Ocorreu um erro interno ao tentar obter o post. Tente novamente mais tarde.",
+    });
+  }
+});
+
 export default router;
