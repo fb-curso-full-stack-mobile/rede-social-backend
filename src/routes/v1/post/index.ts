@@ -33,9 +33,10 @@ router.post("/post", async (req, res) => {
 
 router.get("/post", async (req, res) => {
   const userId = (req as any).authUserId;
+  const newToken = (req as any).newToken;
   try {
     const posts = await postController.fetchAll(userId);
-    return res.json({ posts });
+    return res.json({ posts, newToken });
   } catch (e) {
     log(e);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
