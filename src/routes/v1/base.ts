@@ -2,6 +2,7 @@ import auth from "./auth";
 import post from "./post";
 import comment from "./comment";
 import like from "./like";
+import user from "./user";
 import express from "express";
 import { jwtMiddleware } from "../../middlewares/jwt-middleware";
 
@@ -19,5 +20,6 @@ router.use(jwtMiddleware);
 router.use(post);
 router.use(comment);
 router.use(like);
+router.use(user);
 
 export default router;

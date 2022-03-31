@@ -7,6 +7,23 @@ class LikeController {
       data: like,
     });
   }
+
+  async fetchByPostId(postId: number) {
+    return await prisma.like.findMany({
+      where: {
+        postId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            surname: true,
+          },
+        },
+      },
+    });
+  }
 }
 
 export default new LikeController();
