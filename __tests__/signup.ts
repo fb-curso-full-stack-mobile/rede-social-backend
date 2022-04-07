@@ -8,9 +8,9 @@ describe("Cadastrar um usuário.", () => {
       },
       method: "POST",
       body: JSON.stringify({
-        name: "Fabio",
-        surname: "Bergmann",
-        email: "fabiocberg@gmail.com",
+        name: "Fulano",
+        surname: "de Tal",
+        email: "fulanodetal@gmail.com",
         password: "abcd1234",
         test: true,
       }),

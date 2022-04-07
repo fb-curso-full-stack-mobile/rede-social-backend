@@ -1,10 +1,11 @@
 import auth from "./auth";
-import post from "./post";
 import comment from "./comment";
-import like from "./like";
-import user from "./user";
 import express from "express";
+import friend from "./friend";
 import { jwtMiddleware } from "../../middlewares/jwt-middleware";
+import like from "./like";
+import post from "./post";
+import user from "./user";
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.use(post);
 router.use(comment);
 router.use(like);
 router.use(user);
+router.use(friend);
 
 export default router;

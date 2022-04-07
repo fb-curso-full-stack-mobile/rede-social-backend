@@ -28,6 +28,27 @@ class UserController {
       },
     });
   }
+
+  async search(
+    ignoreId: number,
+    searchTerm: string,
+    page: number,
+    count: number
+  ) {
+    return await prisma.user.findMany({
+      skip: page * count,
+      take: count,
+      where: {
+        id: {
+          not: ignoreId,
+        },
+        name: {
+          contains: searchTerm,
+          mode: "insensitive",
+        },
+      },
+    });
+  }
 }
 
 export default new UserController();

@@ -1,5 +1,7 @@
-import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
+
+import { NextFunction, Request, Response } from "express";
+
 import { StatusCodes } from "http-status-codes";
 import debug from "debug";
 
@@ -22,6 +24,7 @@ export async function jwtMiddleware(
   res: Response,
   next: NextFunction
 ) {
+  log("url: ", req.url);
   const authHeader = req.headers.authorization || "";
   const [_, token] = authHeader.split(" ");
   try {
