@@ -1,5 +1,8 @@
 import { PrismaClient } from "@prisma/client";
+import debug from "debug";
 import prisma from "../services/prisma-service";
+
+const log = debug("app:controller:friend");
 
 class FriendController {
   async findFriends(userId: number) {
@@ -19,11 +22,11 @@ class FriendController {
   async find(userId: number, friendId: number) {
     return await prisma.friend.findFirst({
       where: {
-        userAId: userId,
-        userBId: friendId,
-        OR: {
-          userAId: friendId,
-          userBId: userId,
+        userAId: {
+          in: [userId, friendId],
+        },
+        userBId: {
+          in: [userId, friendId],
         },
       },
     });
