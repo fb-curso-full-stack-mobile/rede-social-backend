@@ -24,7 +24,7 @@ export async function jwtMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  log("url: ", req.url);
+  // log("url: ", req.url);
   const authHeader = req.headers.authorization || "";
   const [_, token] = authHeader.split(" ");
   try {
@@ -32,7 +32,9 @@ export async function jwtMiddleware(
     (req as any).authUserId = (decodedToken as any).id;
     next();
   } catch (e) {
-    log(e);
+    if (!(e instanceof jwt.JsonWebTokenError)) {
+      log(e);
+    }
     if (e instanceof jwt.TokenExpiredError) {
       const decodedToken = jwt.verify(
         token,

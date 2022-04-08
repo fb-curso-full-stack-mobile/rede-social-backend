@@ -11,9 +11,9 @@ router.post("/friend/accept", async (req, res) => {
   const { friendId, accepted, test } = req.body;
   const userId = (req as any).authUserId;
   try {
-    // if (test) {
-    //   return res.json({ success: true, friend: {} });
-    // }
+    if (test) {
+      return res.json({ success: true, friend: {} });
+    }
     const result = await friendController.accept(userId, friendId, accepted);
     if (result) {
       return res.json({ success: true, friend: result });
@@ -23,6 +23,7 @@ router.post("/friend/accept", async (req, res) => {
       });
     }
   } catch (e) {
+    log(e);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "Ocorreu um erro interno aceitando amizade.",
     });
