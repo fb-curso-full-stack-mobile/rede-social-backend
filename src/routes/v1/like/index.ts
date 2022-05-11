@@ -1,7 +1,7 @@
 import { Like } from "@prisma/client";
-import express from "express";
 import { StatusCodes } from "http-status-codes";
 import debug from "debug";
+import express from "express";
 import likeController from "../../../controllers/like-controller";
 
 const log = debug("app:routes:like");
@@ -16,7 +16,12 @@ router.post("/like", async (req, res) => {
       like.id = 1;
     } else {
       like.userId = userId;
-      like = await likeController.create(like);
+      const previousLike = await likeController.findByPostIdAndUserId(like.postId || 0, userId)
+      if (previousLike.length > 0) {
+        like = previousLike[0]
+      } else {
+        like = await likeController.create(like);
+      }
     }
     return res.status(201).json({ like });
   } catch (e) {

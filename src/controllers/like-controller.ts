@@ -8,6 +8,15 @@ class LikeController {
     });
   }
 
+  async findByPostIdAndUserId(postId: number, userId: number) {
+    return await prisma.like.findMany({
+      where: {
+        postId,
+        userId
+      }
+    })
+  }
+
   async fetchByPostId(postId: number) {
     return await prisma.like.findMany({
       where: {
